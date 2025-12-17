@@ -31,58 +31,129 @@ const MovieDetailsHeader = () => {
 
     return (
         <>
-            {movieDetails && <div className="bg-cover" style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w780/${movieDetails.backdrop_path})` }}>
-                <div className="flex m-auto px-60 py-10 w-full bg-black bg-opacity-80">
-                    <div className="w-3/12">
-                        <img className="rounded w-11/12" alt="movie-poster" src={"https://image.tmdb.org/t/p/w780/" + movieDetails.poster_path} />
+            {movieDetails && (
+                <div className="relative w-full h-[85vh] overflow-hidden">
+                    {/* Background Image with Gradient Overlay */}
+                    <div
+                        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                        style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path})` }}
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent"></div>
                     </div>
-                    <div className="text-white w-9/12">
-                        <div className="">
-                            <h2 className="text-4xl font-bold px-2">{movieDetails.title} <span className="font-thin">({releaseDate[0]})</span></h2>
-                            <ul className="flex px-2 gap-6 font-medium text-lg">
-                                <li className="">{movieDetails.release_date}</li>
-                                <li className="list-disc">{genres.join(', ')}</li>
-                                <li className="list-disc">{duration}</li>
-                            </ul>
-                            <div className="p-2 text-xl flex items-center font-bold gap-4 mt-2" onClick={handlePlayTrailer}>
-                                <i className='bx bx-play text-5xl p-4 rounded-full bg-black bg-opacity-50 ml-2'></i>
-                                <p className="">Play Trailer</p>
+
+                    {/* Content */}
+                    <div className="relative h-full max-w-7xl mx-auto px-8 flex items-end pb-16">
+                        <div className="flex gap-8 w-full animate-fade-in">
+                            {/* Poster */}
+                            <div className="flex-shrink-0 hidden md:block">
+                                <img
+                                    className="rounded-xl shadow-2xl w-72 h-auto transform hover:scale-105 transition-transform duration-300"
+                                    alt="movie-poster"
+                                    src={"https://image.tmdb.org/t/p/w500/" + movieDetails.poster_path}
+                                />
                             </div>
-                            <div className="p-2">
-                                <h2 className="mb-2 text-2xl font-bold">Overview</h2>
-                                <p className="tracking-wide opacity-95">{movieDetails.overview}</p>
-                            </div>
-                            <div className="flex w-96 justify-between items-center mt-8">
+
+                            {/* Movie Info */}
+                            <div className="text-white flex-1 space-y-6">
+                                {/* Title */}
                                 <div>
-                                    <h2 className="font-bold">Will Gluck</h2>
-                                    <p className="font-thin">Director, Screenplay</p>
+                                    <h1 className="text-5xl md:text-6xl font-black mb-3 drop-shadow-2xl">
+                                        {movieDetails.title}
+                                    </h1>
+                                    <p className="text-2xl text-gray-300 font-light">
+                                        {releaseDate[0]}
+                                    </p>
                                 </div>
-                                <div>
-                                    <h2 className="font-bold">Will Gluck</h2>
-                                    <p className="font-thin">Director, Screenplay</p>
+
+                                {/* Meta Info */}
+                                <div className="flex flex-wrap items-center gap-4 text-lg">
+                                    {/* Rating */}
+                                    <div className="flex items-center gap-2 bg-yellow-500/20 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-500/30">
+                                        <i className='bx bxs-star text-yellow-400 text-xl'></i>
+                                        <span className="font-bold">{movieDetails.vote_average?.toFixed(1)}</span>
+                                        <span className="text-gray-300 text-sm">/ 10</span>
+                                    </div>
+
+                                    {/* Duration */}
+                                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                                        <i className='bx bx-time text-xl'></i>
+                                        <span>{duration}</span>
+                                    </div>
+
+                                    {/* Release Date */}
+                                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                                        <i className='bx bx-calendar text-xl'></i>
+                                        <span>{movieDetails.release_date}</span>
+                                    </div>
+                                </div>
+
+                                {/* Genres */}
+                                <div className="flex flex-wrap gap-2">
+                                    {movieDetails.genres?.map(genre => (
+                                        <span
+                                            key={genre.id}
+                                            className="px-4 py-1 bg-gradient-to-r from-red-600/30 to-red-500/30 backdrop-blur-sm rounded-full text-sm font-medium border border-red-500/30"
+                                        >
+                                            {genre.name}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="flex flex-wrap items-center gap-4">
+                                    <button
+                                        className="flex items-center gap-3 px-8 py-4 bg-white text-black rounded-lg font-bold text-lg hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 shadow-xl"
+                                        onClick={handlePlayTrailer}
+                                    >
+                                        <i className='bx bx-play text-3xl'></i>
+                                        <span>Play Trailer</span>
+                                    </button>
+                                    <button className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-800/60 backdrop-blur-md hover:bg-gray-700/80 transition-all duration-300 transform hover:scale-110 border border-gray-600/30">
+                                        <i className='bx bx-plus text-3xl'></i>
+                                    </button>
+                                    <button className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-800/60 backdrop-blur-md hover:bg-gray-700/80 transition-all duration-300 transform hover:scale-110 border border-gray-600/30">
+                                        <i className='bx bx-like text-2xl'></i>
+                                    </button>
+                                    <button className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-800/60 backdrop-blur-md hover:bg-gray-700/80 transition-all duration-300 transform hover:scale-110 border border-gray-600/30">
+                                        <i className='bx bx-share text-2xl'></i>
+                                    </button>
+                                </div>
+
+                                {/* Overview */}
+                                <div className="max-w-3xl">
+                                    <h2 className="text-2xl font-bold mb-3">Overview</h2>
+                                    <p className="text-lg text-gray-200 leading-relaxed">
+                                        {movieDetails.overview}
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>}
-            {movieVideos && !isClosed &&
-                <>
-                    <div className="absolute top-0 left-0 w-screen aspect-video z-40 bg-black bg-opacity-95">
-                        <p className="absolute right-40 top-10 text-white text-5xl" onClick={handleClosePlayTrailer}><i class='bx bx-x'></i></p>
+            )}
+            {movieVideos && !isClosed && filterTrailer && filterTrailer.length > 0 && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm animate-fade-in">
+                    {/* Close Button */}
+                    <button
+                        className="absolute top-8 right-8 text-white hover:text-red-500 transition-colors duration-300 transform hover:scale-110 z-50"
+                        onClick={handleClosePlayTrailer}
+                    >
+                        <i className='bx bx-x text-6xl'></i>
+                    </button>
+
+                    {/* Video Container */}
+                    <div className="w-11/12 max-w-6xl">
+                        <iframe
+                            className="w-full aspect-video rounded-lg shadow-2xl border-0"
+                            src={`https://www.youtube.com/embed/${filterTrailer[0].key}?autoplay=1&controls=1`}
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen>
+                        </iframe>
                     </div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full">
-                        <div className="w-8/12 m-auto">
-                            <iframe className="w-full aspect-video"
-                                src={"https://www.youtube.com/embed/"+filterTrailer[0].key+"?si=-CZUWqRkU4SlDsQd&amp;controls=1"}
-                                title="YouTube video player"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen></iframe>
-                        </div>
-                    </div>
-                </>
-            }
+                </div>
+            )}
         </>
     )
 }

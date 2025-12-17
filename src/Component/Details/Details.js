@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import useMovieDetails from "../../Hooks/useMovieDetails";
 import { addMovieVideos, addMovieDetails, addMovieCast, addMovieGallery } from "../../Utils/detailsSlice";
 import SideDetails from "./SideDetails";
+import Footer from "../Footer";
 
 const Details = () => {
     const id = useParams().id;
@@ -16,20 +17,23 @@ const Details = () => {
     useMovieDetails('https://api.themoviedb.org/3/movie/' + id + '/images', addMovieGallery);
 
     return (
-        <>
+        <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black">
             <Header />
             <MovieDetailsHeader />
-            <div className="flex w-11/12 m-auto mt-4 pb-4">
-                <div className="w-8/12">
-                    <Cast />
-                    <Videos />
-                    <Gallery />
-                </div>
-                <div className="w-4/12">
-                    <SideDetails />
+            <div className="max-w-7xl mx-auto px-8 py-12">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="lg:col-span-2 space-y-12">
+                        <Cast />
+                        <Videos />
+                        <Gallery />
+                    </div>
+                    <div className="lg:col-span-1">
+                        <SideDetails />
+                    </div>
                 </div>
             </div>
-        </>
+            <Footer />
+        </div>
     );
 }
 

@@ -5,6 +5,9 @@ import useFetchMovies from '../Hooks/useFetchMovies';
 import { addPlayingNowMovies, addPopularMovies, addTopRatedMovies } from '../Utils/moviesSlice';
 import SearchedMovie from './SearchedMovie';
 import Details from './Details/Details';
+import Movies from './Movies';
+import TVShows from './TVShows';
+import NewAndPopular from './NewAndPopular';
 
 const Body = () => {
   useFetchMovies('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', addPlayingNowMovies);
@@ -27,6 +30,18 @@ const Body = () => {
     {
       path: '/search',
       element: <SearchedMovie />
+    },
+    {
+      path: '/movies',
+      element: <Movies />
+    },
+    {
+      path: '/tv-shows',
+      element: <TVShows />
+    },
+    {
+      path: '/new-and-popular',
+      element: <NewAndPopular />
     }
   ]);
 

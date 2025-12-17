@@ -17,7 +17,10 @@ const useFetchDataById = (movie) => {
                 dispatch(addMovieTrailer({
                     trailer: trailer,
                     title: movie.title,
-                    overview: movie.overview
+                    overview: movie.overview,
+                    vote_average: movie.vote_average,
+                    release_date: movie.release_date,
+                    runtime: movie.runtime
                 }))
             })
             .catch(err => {

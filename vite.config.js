@@ -21,7 +21,7 @@ module.exports = defineConfig({
     open: true
   },
   build: {
-    outDir: 'build'
+    outDir: 'dist'
   }
 })
 

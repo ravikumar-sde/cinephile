@@ -1,19 +1,33 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { validateFormData } from "../Utils/Validate";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { addUser } from "../Utils/userSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [isSignup, setIsSignup] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const email = useRef(null);
     const password = useRef(null);
     const name = useRef(null);
     const auth = getAuth();
+
+    // Listen to auth state changes and redirect to browse if user is logged in
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                dispatch(addUser({ email: user.email, uid: user.uid }));
+                navigate('/browse');
+            }
+        });
+        return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleFormRender = () => {
         setIsSignup(!isSignup);

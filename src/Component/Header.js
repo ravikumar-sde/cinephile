@@ -31,7 +31,7 @@ const Header = () => {
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
-      dispatch(removeUser);
+      dispatch(removeUser());
       navigate("/");
     }).catch((error) => {
       console.log(error);

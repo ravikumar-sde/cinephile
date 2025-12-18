@@ -43,8 +43,17 @@ const Videos = () => {
             </div>
 
             {/* Videos Horizontal Scroll */}
+            {(!movieVideos?.results || movieVideos.results.length === 0) ? (
+                <div className="flex items-center justify-center py-16 bg-gray-800/30 rounded-xl border border-gray-700/50">
+                    <div className="text-center">
+                        <i className='bx bx-video-off text-6xl text-gray-600 mb-4'></i>
+                        <p className="text-xl text-gray-400 font-medium">No Videos Available</p>
+                        <p className="text-sm text-gray-500 mt-2">There are no trailers or videos for this title yet.</p>
+                    </div>
+                </div>
+            ) : (
             <div className="flex overflow-x-auto gap-6 pb-4 scroll-smooth snap-x snap-mandatory scrollbar-hide">
-                {movieVideos?.results && movieVideos.results.map((video, index) => {
+                {movieVideos.results.map((video, index) => {
                     return (
                         <div
                             className="group flex-shrink-0 w-[520px] snap-start cursor-pointer"
@@ -118,6 +127,7 @@ const Videos = () => {
                     );
                 })}
             </div>
+            )}
 
             {/* Full Screen Video Modal */}
             {selectedVideo && (

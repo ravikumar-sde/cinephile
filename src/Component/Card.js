@@ -59,13 +59,13 @@ const Card = ({ movie }) => {
             >
                 <div className="relative overflow-hidden rounded-lg shadow-2xl">
                     <img
-                        className='w-full rounded-lg transition-all duration-300 group-hover:brightness-50'
+                        className='w-full rounded-lg transition-all duration-300 hover:brightness-50'
                         alt={movie.title}
                         src={'https://image.tmdb.org/t/p/w780' + movie.poster_path}
                     />
 
                     {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex flex-col justify-end p-4">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg flex flex-col justify-end p-4">
                         <h3 className="text-white font-bold text-lg mb-2 line-clamp-2">{movie.title}</h3>
 
                         <div className="flex items-center gap-2 mb-3">
@@ -85,7 +85,7 @@ const Card = ({ movie }) => {
                         <div className="flex gap-2">
                             <button className="flex-1 bg-white text-black py-2 px-3 rounded-md font-bold text-sm hover:bg-gray-200 transition-colors flex items-center justify-center gap-1">
                                 <i className='bx bx-play text-xl'></i>
-                                Play
+                                View
                             </button>
                             <button className="bg-gray-800/80 text-white p-2 rounded-md hover:bg-gray-700 transition-colors">
                                 <i className='bx bx-plus text-xl'></i>

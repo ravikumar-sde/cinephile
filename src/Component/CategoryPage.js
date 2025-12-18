@@ -1,15 +1,11 @@
-import Header from './Header';
 import { useState, useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { clearMovieDetails } from '../Utils/detailsSlice';
+import Header from './Header';
 import Footer from './Footer';
 import FiltersSidebar from './FiltersSidebar';
 import MovieGrid from './MovieGrid';
 import options from '../Utils/constants';
 
-const NewAndPopular = () => {
-  const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('trending');
+const CategoryPage = ({ title, baseEndpoint, mediaType = 'movie' }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -21,22 +17,27 @@ const NewAndPopular = () => {
     toDate: new Date().toISOString().split('T')[0]
   });
 
-  const tabs = [
-    { id: 'trending', label: 'Trending', icon: 'bx-trending-up', endpoint: 'https://api.themoviedb.org/3/trending/all/day' },
-    { id: 'now-playing', label: 'Now Playing', icon: 'bx-play-circle', endpoint: 'https://api.themoviedb.org/3/movie/now_playing' },
-    { id: 'airing-today', label: 'Airing Today', icon: 'bx-tv', endpoint: 'https://api.themoviedb.org/3/tv/airing_today' },
-  ];
-
-  useEffect(() => {
-    dispatch(clearMovieDetails());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const currentTab = tabs.find(t => t.id === activeTab);
     try {
-      const url = `${currentTab.endpoint}?language=en-US&page=${page}`;
+      let url = `${baseEndpoint}?language=en-US&page=${page}`;
+      
+      // Add filters if using discover endpoint
+      if (baseEndpoint.includes('discover')) {
+        url += `&sort_by=${filters.sortBy}`;
+        if (filters.selectedGenres.length > 0) {
+          url += `&with_genres=${filters.selectedGenres.join(',')}`;
+        }
+        if (filters.fromDate) {
+          const dateParam = mediaType === 'movie' ? 'primary_release_date.gte' : 'first_air_date.gte';
+          url += `&${dateParam}=${filters.fromDate}`;
+        }
+        if (filters.toDate) {
+          const dateParam = mediaType === 'movie' ? 'primary_release_date.lte' : 'first_air_date.lte';
+          url += `&${dateParam}=${filters.toDate}`;
+        }
+      }
+
       const response = await fetch(url, options);
       const data = await response.json();
       setMovies(data.results || []);
@@ -45,17 +46,11 @@ const NewAndPopular = () => {
       console.error('Error fetching data:', error);
     }
     setLoading(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab, page]);
+  }, [baseEndpoint, page, filters, mediaType]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const handleTabChange = (tabId) => {
-    setActiveTab(tabId);
-    setPage(1);
-  };
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
@@ -67,12 +62,6 @@ const NewAndPopular = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const getMediaType = () => {
-    if (activeTab === 'airing-today') return 'tv';
-    if (activeTab === 'now-playing') return 'movie';
-    return 'movie'; // For trending, default to movie
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900">
       <Header />
@@ -80,35 +69,16 @@ const NewAndPopular = () => {
       {/* Page Content */}
       <div className="pt-24 pb-12 px-8">
         {/* Title */}
-        <h1 className="text-3xl font-bold text-white mb-2">New & Popular</h1>
-        <p className="text-gray-400 mb-6">Latest releases and trending content</p>
-
-        {/* Tabs */}
-        <div className="flex items-center gap-2 mb-6">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => handleTabChange(tab.id)}
-              className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 ${
-                activeTab === tab.id
-                  ? 'bg-red-600 text-white shadow-lg shadow-red-500/30'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
-              }`}
-            >
-              <i className={`bx ${tab.icon} text-lg`}></i>
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        <h1 className="text-3xl font-bold text-white mb-6">{title}</h1>
 
         {/* Main Layout */}
         <div className="flex gap-8">
           {/* Sidebar */}
-          <FiltersSidebar onFilterChange={handleFilterChange} mediaType={getMediaType()} />
+          <FiltersSidebar onFilterChange={handleFilterChange} mediaType={mediaType} />
 
           {/* Content */}
           <div className="flex-1">
-            <MovieGrid movies={movies} loading={loading} mediaType={getMediaType()} />
+            <MovieGrid movies={movies} loading={loading} mediaType={mediaType} />
 
             {/* Pagination */}
             {totalPages > 1 && !loading && (
@@ -181,5 +151,5 @@ const NewAndPopular = () => {
   );
 };
 
-export default NewAndPopular;
+export default CategoryPage;
 

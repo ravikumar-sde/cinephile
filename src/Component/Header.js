@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeUser, addUser } from "../Utils/userSlice";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import { toggleSearchBar } from "../Utils/functionalitySlice";
 
@@ -12,7 +12,22 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { isCloseButton } = useSelector(state => state.functionality)
+  const { isCloseButton } = useSelector(state => state.functionality);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const moviesDropdown = [
+    { label: 'Popular', path: '/movies/popular' },
+    { label: 'Now Playing', path: '/movies/now-playing' },
+    { label: 'Upcoming', path: '/movies/upcoming' },
+    { label: 'Top Rated', path: '/movies/top-rated' },
+  ];
+
+  const tvShowsDropdown = [
+    { label: 'Popular', path: '/tv/popular' },
+    { label: 'Airing Today', path: '/tv/airing-today' },
+    { label: 'On TV', path: '/tv/on-tv' },
+    { label: 'Top Rated', path: '/tv/top-rated' },
+  ];
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -44,6 +59,13 @@ const Header = () => {
     dispatch(toggleSearchBar(false));
   }
 
+  const handleMouseEnter = (menu) => {
+    setActiveDropdown(menu);
+  }
+
+  const handleMouseLeave = () => {
+    setActiveDropdown(null);
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 px-8 py-4 flex items-center justify-between z-50 bg-gradient-to-b from-black/90 via-black/70 to-transparent backdrop-blur-md transition-all duration-300">
@@ -56,16 +78,65 @@ const Header = () => {
           </Link>
         </div>
         <div>
-          <ul className="flex text-white gap-6 text-sm font-medium">
+          <ul className="flex text-white gap-6 text-sm font-medium items-center">
             <li className={`hover:text-gray-300 cursor-pointer transition-colors duration-200 hover:scale-105 transform ${location.pathname === '/browse' ? 'text-white font-bold' : ''}`}>
               <Link to="/browse">Home</Link>
             </li>
-            <li className={`hover:text-gray-300 cursor-pointer transition-colors duration-200 hover:scale-105 transform ${location.pathname === '/movies' ? 'text-white font-bold' : ''}`}>
-              <Link to="/movies">Movies</Link>
+
+            {/* Movies Dropdown */}
+            <li
+              className="relative"
+              onMouseEnter={() => handleMouseEnter('movies')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <span className={`hover:text-gray-300 cursor-pointer transition-colors duration-200 flex items-center gap-1 ${location.pathname.startsWith('/movies') ? 'text-white font-bold' : ''}`}>
+                Movies
+                <i className={`bx bx-chevron-down text-lg transition-transform duration-200 ${activeDropdown === 'movies' ? 'rotate-180' : ''}`}></i>
+              </span>
+              {activeDropdown === 'movies' && (
+                <div className="absolute top-full left-0 pt-3 z-50">
+                  <div className="bg-gray-900/95 backdrop-blur-md border border-gray-700 rounded-lg shadow-2xl py-2 min-w-[180px] animate-fade-in">
+                    {moviesDropdown.map((item) => (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        className={`block px-4 py-2.5 text-gray-200 hover:bg-gray-800 hover:text-white transition-colors duration-150 ${location.pathname === item.path ? 'bg-gray-800 text-white font-semibold border-l-2 border-red-500' : ''}`}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </li>
-            <li className={`hover:text-gray-300 cursor-pointer transition-colors duration-200 hover:scale-105 transform ${location.pathname === '/tv-shows' ? 'text-white font-bold' : ''}`}>
-              <Link to="/tv-shows">TV Shows</Link>
+
+            {/* TV Shows Dropdown */}
+            <li
+              className="relative"
+              onMouseEnter={() => handleMouseEnter('tvshows')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <span className={`hover:text-gray-300 cursor-pointer transition-colors duration-200 flex items-center gap-1 ${location.pathname.startsWith('/tv') ? 'text-white font-bold' : ''}`}>
+                TV Shows
+                <i className={`bx bx-chevron-down text-lg transition-transform duration-200 ${activeDropdown === 'tvshows' ? 'rotate-180' : ''}`}></i>
+              </span>
+              {activeDropdown === 'tvshows' && (
+                <div className="absolute top-full left-0 pt-3 z-50">
+                  <div className="bg-gray-900/95 backdrop-blur-md border border-gray-700 rounded-lg shadow-2xl py-2 min-w-[180px] animate-fade-in">
+                    {tvShowsDropdown.map((item) => (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        className={`block px-4 py-2.5 text-gray-200 hover:bg-gray-800 hover:text-white transition-colors duration-150 ${location.pathname === item.path ? 'bg-gray-800 text-white font-semibold border-l-2 border-red-500' : ''}`}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </li>
+
             <li className={`hover:text-gray-300 cursor-pointer transition-colors duration-200 hover:scale-105 transform ${location.pathname === '/new-and-popular' ? 'text-white font-bold' : ''}`}>
               <Link to="/new-and-popular">New & Popular</Link>
             </li>

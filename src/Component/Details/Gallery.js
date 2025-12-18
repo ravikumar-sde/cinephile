@@ -61,6 +61,15 @@ const Gallery = () => {
             </div>
 
             {/* Gallery Horizontal Scroll */}
+            {displayedImages.length === 0 ? (
+                <div className="flex items-center justify-center py-16 bg-gray-800/30 rounded-xl border border-gray-700/50">
+                    <div className="text-center">
+                        <i className='bx bx-image text-6xl text-gray-600 mb-4'></i>
+                        <p className="text-xl text-gray-400 font-medium">No {activeTab === 'backdrops' ? 'Backdrops' : 'Posters'} Available</p>
+                        <p className="text-sm text-gray-500 mt-2">There are no images for this category yet.</p>
+                    </div>
+                </div>
+            ) : (
             <div className="flex overflow-x-auto gap-4 pb-4 scroll-smooth snap-x snap-mandatory scrollbar-hide">
                 {displayedImages.map((image, index) => {
                     return (
@@ -135,6 +144,7 @@ const Gallery = () => {
                     )
                 })}
             </div>
+            )}
 
             {/* Lightbox Modal */}
             {selectedImage && (

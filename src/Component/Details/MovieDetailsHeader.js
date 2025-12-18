@@ -32,7 +32,7 @@ const MovieDetailsHeader = () => {
     return (
         <>
             {movieDetails && (
-                <div className="relative w-full h-[85vh] overflow-hidden">
+                <div className="relative w-full min-h-[100vh] md:min-h-[85vh] overflow-hidden">
                     {/* Background Image with Gradient Overlay */}
                     <div
                         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -43,57 +43,57 @@ const MovieDetailsHeader = () => {
                     </div>
 
                     {/* Content */}
-                    <div className="relative h-full max-w-7xl mx-auto px-8 flex items-end pb-16">
-                        <div className="flex gap-8 w-full animate-fade-in">
-                            {/* Poster */}
+                    <div className="relative h-full max-w-7xl mx-auto px-4 md:px-8 flex items-end pb-8 md:pb-16 pt-20 md:pt-24">
+                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 w-full animate-fade-in">
+                            {/* Poster - Hidden on mobile */}
                             <div className="flex-shrink-0 hidden md:block">
                                 <img
-                                    className="rounded-xl shadow-2xl w-72 h-auto transform hover:scale-105 transition-transform duration-300"
+                                    className="rounded-xl shadow-2xl w-48 lg:w-72 h-auto transform hover:scale-105 transition-transform duration-300"
                                     alt="movie-poster"
                                     src={"https://image.tmdb.org/t/p/w500/" + movieDetails.poster_path}
                                 />
                             </div>
 
                             {/* Movie Info */}
-                            <div className="text-white flex-1 space-y-6">
+                            <div className="text-white flex-1 space-y-3 md:space-y-6">
                                 {/* Title */}
                                 <div>
-                                    <h1 className="text-5xl md:text-6xl font-black mb-3 drop-shadow-2xl">
+                                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-1 md:mb-3 drop-shadow-2xl">
                                         {movieDetails.title}
                                     </h1>
-                                    <p className="text-2xl text-gray-300 font-light">
+                                    <p className="text-lg md:text-2xl text-gray-300 font-light">
                                         {releaseDate[0]}
                                     </p>
                                 </div>
 
                                 {/* Meta Info */}
-                                <div className="flex flex-wrap items-center gap-4 text-lg">
+                                <div className="flex flex-wrap items-center gap-2 md:gap-4 text-sm md:text-lg">
                                     {/* Rating */}
-                                    <div className="flex items-center gap-2 bg-yellow-500/20 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-500/30">
-                                        <i className='bx bxs-star text-yellow-400 text-xl'></i>
+                                    <div className="flex items-center gap-1 md:gap-2 bg-yellow-500/20 backdrop-blur-sm px-2 md:px-4 py-1 md:py-2 rounded-full border border-yellow-500/30">
+                                        <i className='bx bxs-star text-yellow-400 text-base md:text-xl'></i>
                                         <span className="font-bold">{movieDetails.vote_average?.toFixed(1)}</span>
-                                        <span className="text-gray-300 text-sm">/ 10</span>
+                                        <span className="text-gray-300 text-xs md:text-sm">/ 10</span>
                                     </div>
 
                                     {/* Duration */}
-                                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
-                                        <i className='bx bx-time text-xl'></i>
+                                    <div className="flex items-center gap-1 md:gap-2 bg-white/10 backdrop-blur-sm px-2 md:px-4 py-1 md:py-2 rounded-full">
+                                        <i className='bx bx-time text-base md:text-xl'></i>
                                         <span>{duration}</span>
                                     </div>
 
-                                    {/* Release Date */}
-                                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
-                                        <i className='bx bx-calendar text-xl'></i>
+                                    {/* Release Date - Hidden on very small screens */}
+                                    <div className="hidden sm:flex items-center gap-1 md:gap-2 bg-white/10 backdrop-blur-sm px-2 md:px-4 py-1 md:py-2 rounded-full">
+                                        <i className='bx bx-calendar text-base md:text-xl'></i>
                                         <span>{movieDetails.release_date}</span>
                                     </div>
                                 </div>
 
                                 {/* Genres */}
-                                <div className="flex flex-wrap gap-2">
+                                <div className="flex flex-wrap gap-1 md:gap-2">
                                     {movieDetails.genres?.map(genre => (
                                         <span
                                             key={genre.id}
-                                            className="px-4 py-1 bg-gradient-to-r from-red-600/30 to-red-500/30 backdrop-blur-sm rounded-full text-sm font-medium border border-red-500/30"
+                                            className="px-2 md:px-4 py-0.5 md:py-1 bg-gradient-to-r from-red-600/30 to-red-500/30 backdrop-blur-sm rounded-full text-xs md:text-sm font-medium border border-red-500/30"
                                         >
                                             {genre.name}
                                         </span>
@@ -101,29 +101,29 @@ const MovieDetailsHeader = () => {
                                 </div>
 
                                 {/* Action Buttons */}
-                                <div className="flex flex-wrap items-center gap-4">
+                                <div className="flex flex-wrap items-center gap-2 md:gap-4">
                                     <button
-                                        className="flex items-center gap-3 px-8 py-4 bg-white text-black rounded-lg font-bold text-lg hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 shadow-xl"
+                                        className="flex items-center gap-2 md:gap-3 px-4 md:px-8 py-2 md:py-4 bg-white text-black rounded-lg font-bold text-sm md:text-lg hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 shadow-xl"
                                         onClick={handlePlayTrailer}
                                     >
-                                        <i className='bx bx-play text-3xl'></i>
+                                        <i className='bx bx-play text-xl md:text-3xl'></i>
                                         <span>Play Trailer</span>
                                     </button>
-                                    <button className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-800/60 backdrop-blur-md hover:bg-gray-700/80 transition-all duration-300 transform hover:scale-110 border border-gray-600/30">
-                                        <i className='bx bx-plus text-3xl'></i>
+                                    <button className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-gray-800/60 backdrop-blur-md hover:bg-gray-700/80 transition-all duration-300 transform hover:scale-110 border border-gray-600/30">
+                                        <i className='bx bx-plus text-xl md:text-3xl'></i>
                                     </button>
-                                    <button className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-800/60 backdrop-blur-md hover:bg-gray-700/80 transition-all duration-300 transform hover:scale-110 border border-gray-600/30">
-                                        <i className='bx bx-like text-2xl'></i>
+                                    <button className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-gray-800/60 backdrop-blur-md hover:bg-gray-700/80 transition-all duration-300 transform hover:scale-110 border border-gray-600/30">
+                                        <i className='bx bx-like text-lg md:text-2xl'></i>
                                     </button>
-                                    <button className="flex items-center justify-center w-14 h-14 rounded-full bg-gray-800/60 backdrop-blur-md hover:bg-gray-700/80 transition-all duration-300 transform hover:scale-110 border border-gray-600/30">
-                                        <i className='bx bx-share text-2xl'></i>
+                                    <button className="hidden sm:flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-gray-800/60 backdrop-blur-md hover:bg-gray-700/80 transition-all duration-300 transform hover:scale-110 border border-gray-600/30">
+                                        <i className='bx bx-share text-lg md:text-2xl'></i>
                                     </button>
                                 </div>
 
                                 {/* Overview */}
                                 <div className="max-w-3xl">
-                                    <h2 className="text-2xl font-bold mb-3">Overview</h2>
-                                    <p className="text-lg text-gray-200 leading-relaxed">
+                                    <h2 className="text-lg md:text-2xl font-bold mb-1 md:mb-3">Overview</h2>
+                                    <p className="text-sm md:text-lg text-gray-200 leading-relaxed line-clamp-4 md:line-clamp-none">
                                         {movieDetails.overview}
                                     </p>
                                 </div>
@@ -133,17 +133,17 @@ const MovieDetailsHeader = () => {
                 </div>
             )}
             {movieVideos && !isClosed && filterTrailer && filterTrailer.length > 0 && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm animate-fade-in">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm animate-fade-in p-4">
                     {/* Close Button */}
                     <button
-                        className="absolute top-8 right-8 text-white hover:text-red-500 transition-colors duration-300 transform hover:scale-110 z-50"
+                        className="absolute top-4 right-4 md:top-8 md:right-8 text-white hover:text-red-500 transition-colors duration-300 transform hover:scale-110 z-50"
                         onClick={handleClosePlayTrailer}
                     >
-                        <i className='bx bx-x text-6xl'></i>
+                        <i className='bx bx-x text-4xl md:text-6xl'></i>
                     </button>
 
                     {/* Video Container */}
-                    <div className="w-11/12 max-w-6xl">
+                    <div className="w-full max-w-6xl">
                         <iframe
                             className="w-full aspect-video rounded-lg shadow-2xl border-0"
                             src={`https://www.youtube.com/embed/${filterTrailer[0].key}?autoplay=1&controls=1`}

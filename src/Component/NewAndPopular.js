@@ -73,38 +73,52 @@ const NewAndPopular = () => {
     return 'movie'; // For trending, default to movie
   };
 
+  const [showFilters, setShowFilters] = useState(false);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900">
       <Header />
 
       {/* Page Content */}
-      <div className="pt-24 pb-12 px-8">
+      <div className="pt-20 md:pt-24 pb-8 md:pb-12 px-4 md:px-8">
         {/* Title */}
-        <h1 className="text-3xl font-bold text-white mb-2">New & Popular</h1>
-        <p className="text-gray-400 mb-6">Latest releases and trending content</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">New & Popular</h1>
+        <p className="text-gray-400 text-sm md:text-base mb-4 md:mb-6">Latest releases and trending content</p>
 
         {/* Tabs */}
-        <div className="flex items-center gap-2 mb-6">
+        <div className="flex flex-wrap items-center gap-2 mb-4 md:mb-6">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 ${
+              className={`px-3 md:px-5 py-2 md:py-2.5 rounded-lg text-sm md:text-base font-medium transition-all duration-300 flex items-center gap-1 md:gap-2 ${
                 activeTab === tab.id
                   ? 'bg-red-600 text-white shadow-lg shadow-red-500/30'
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
               }`}
             >
-              <i className={`bx ${tab.icon} text-lg`}></i>
-              {tab.label}
+              <i className={`bx ${tab.icon} text-base md:text-lg`}></i>
+              <span className="hidden sm:inline">{tab.label}</span>
+              <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
             </button>
           ))}
         </div>
 
+        {/* Mobile Filter Toggle */}
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className="lg:hidden w-full mb-4 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white font-medium flex items-center justify-center gap-2"
+        >
+          <i className={`bx ${showFilters ? 'bx-x' : 'bx-filter-alt'} text-lg`}></i>
+          {showFilters ? 'Hide Filters' : 'Show Filters'}
+        </button>
+
         {/* Main Layout */}
-        <div className="flex gap-8">
+        <div className="flex flex-col lg:flex-row gap-4 md:gap-8">
           {/* Sidebar */}
-          <FiltersSidebar onFilterChange={handleFilterChange} mediaType={getMediaType()} />
+          <div className={`${showFilters ? 'block' : 'hidden'} lg:block`}>
+            <FiltersSidebar onFilterChange={handleFilterChange} mediaType={getMediaType()} />
+          </div>
 
           {/* Content */}
           <div className="flex-1">
@@ -112,20 +126,20 @@ const NewAndPopular = () => {
 
             {/* Pagination */}
             {totalPages > 1 && !loading && (
-              <div className="mt-8 flex items-center justify-center gap-2">
+              <div className="mt-6 md:mt-8 flex items-center justify-center gap-1 md:gap-2 flex-wrap">
                 <button
                   onClick={() => handlePageChange(1)}
                   disabled={page === 1}
-                  className="px-3 py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+                  className="px-2 md:px-3 py-1.5 md:py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
                 >
-                  <i className='bx bx-first-page text-lg'></i>
+                  <i className='bx bx-first-page text-base md:text-lg'></i>
                 </button>
                 <button
                   onClick={() => handlePageChange(page - 1)}
                   disabled={page === 1}
-                  className="px-3 py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+                  className="px-2 md:px-3 py-1.5 md:py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
                 >
-                  <i className='bx bx-chevron-left text-lg'></i>
+                  <i className='bx bx-chevron-left text-base md:text-lg'></i>
                 </button>
 
                 <div className="flex items-center gap-1">
@@ -144,7 +158,7 @@ const NewAndPopular = () => {
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`w-10 h-10 rounded font-medium transition-colors ${
+                        className={`w-8 h-8 md:w-10 md:h-10 rounded text-sm md:text-base font-medium transition-colors ${
                           page === pageNum
                             ? 'bg-red-600 text-white shadow-lg shadow-red-500/30'
                             : 'bg-gray-800 text-gray-300 border border-gray-700 hover:bg-gray-700'
@@ -159,16 +173,16 @@ const NewAndPopular = () => {
                 <button
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages}
-                  className="px-3 py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+                  className="px-2 md:px-3 py-1.5 md:py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
                 >
-                  <i className='bx bx-chevron-right text-lg'></i>
+                  <i className='bx bx-chevron-right text-base md:text-lg'></i>
                 </button>
                 <button
                   onClick={() => handlePageChange(totalPages)}
                   disabled={page === totalPages}
-                  className="px-3 py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+                  className="px-2 md:px-3 py-1.5 md:py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
                 >
-                  <i className='bx bx-last-page text-lg'></i>
+                  <i className='bx bx-last-page text-base md:text-lg'></i>
                 </button>
               </div>
             )}

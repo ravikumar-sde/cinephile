@@ -10,6 +10,7 @@ const CategoryPage = ({ title, baseEndpoint, mediaType = 'movie' }) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     sortBy: 'popularity.desc',
     selectedGenres: [],
@@ -67,14 +68,25 @@ const CategoryPage = ({ title, baseEndpoint, mediaType = 'movie' }) => {
       <Header />
 
       {/* Page Content */}
-      <div className="pt-24 pb-12 px-8">
-        {/* Title */}
-        <h1 className="text-3xl font-bold text-white mb-6">{title}</h1>
+      <div className="pt-20 md:pt-24 pb-8 md:pb-12 px-4 md:px-8">
+        {/* Title and Filter Toggle */}
+        <div className="flex items-center justify-between mb-4 md:mb-6">
+          <h1 className="text-xl md:text-3xl font-bold text-white">{title}</h1>
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="lg:hidden flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 hover:bg-gray-700 transition-colors"
+          >
+            <i className='bx bx-filter-alt text-lg'></i>
+            <span className="text-sm">Filters</span>
+          </button>
+        </div>
 
         {/* Main Layout */}
-        <div className="flex gap-8">
-          {/* Sidebar */}
-          <FiltersSidebar onFilterChange={handleFilterChange} mediaType={mediaType} />
+        <div className="flex flex-col lg:flex-row gap-4 md:gap-8">
+          {/* Sidebar - Hidden on mobile unless toggled */}
+          <div className={`${showFilters ? 'block' : 'hidden'} lg:block`}>
+            <FiltersSidebar onFilterChange={handleFilterChange} mediaType={mediaType} />
+          </div>
 
           {/* Content */}
           <div className="flex-1">
@@ -82,20 +94,20 @@ const CategoryPage = ({ title, baseEndpoint, mediaType = 'movie' }) => {
 
             {/* Pagination */}
             {totalPages > 1 && !loading && (
-              <div className="mt-8 flex items-center justify-center gap-2">
+              <div className="mt-6 md:mt-8 flex items-center justify-center gap-1 md:gap-2 flex-wrap">
                 <button
                   onClick={() => handlePageChange(1)}
                   disabled={page === 1}
-                  className="px-3 py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+                  className="px-2 md:px-3 py-1.5 md:py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
                 >
-                  <i className='bx bx-first-page text-lg'></i>
+                  <i className='bx bx-first-page text-base md:text-lg'></i>
                 </button>
                 <button
                   onClick={() => handlePageChange(page - 1)}
                   disabled={page === 1}
-                  className="px-3 py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+                  className="px-2 md:px-3 py-1.5 md:py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
                 >
-                  <i className='bx bx-chevron-left text-lg'></i>
+                  <i className='bx bx-chevron-left text-base md:text-lg'></i>
                 </button>
 
                 <div className="flex items-center gap-1">
@@ -114,7 +126,7 @@ const CategoryPage = ({ title, baseEndpoint, mediaType = 'movie' }) => {
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`w-10 h-10 rounded font-medium transition-colors ${
+                        className={`w-8 h-8 md:w-10 md:h-10 rounded font-medium text-sm md:text-base transition-colors ${
                           page === pageNum
                             ? 'bg-red-600 text-white shadow-lg shadow-red-500/30'
                             : 'bg-gray-800 text-gray-300 border border-gray-700 hover:bg-gray-700'
@@ -129,16 +141,16 @@ const CategoryPage = ({ title, baseEndpoint, mediaType = 'movie' }) => {
                 <button
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages}
-                  className="px-3 py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+                  className="px-2 md:px-3 py-1.5 md:py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
                 >
-                  <i className='bx bx-chevron-right text-lg'></i>
+                  <i className='bx bx-chevron-right text-base md:text-lg'></i>
                 </button>
                 <button
                   onClick={() => handlePageChange(totalPages)}
                   disabled={page === totalPages}
-                  className="px-3 py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+                  className="px-2 md:px-3 py-1.5 md:py-2 rounded bg-gray-800 text-gray-300 border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
                 >
-                  <i className='bx bx-last-page text-lg'></i>
+                  <i className='bx bx-last-page text-base md:text-lg'></i>
                 </button>
               </div>
             )}

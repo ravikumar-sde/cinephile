@@ -22,11 +22,11 @@ const Browse = () => {
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black">
       <Header />
       {movie && <VideoBanner movie={movie} />}
-      <div className='relative -mt-32 z-20 pb-20'>
+      <div className='relative -mt-16 md:-mt-32 z-20 pb-10 md:pb-20'>
         {/* Trending Section with Badge */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mx-8 mb-4">
-            <span className="bg-gradient-to-r from-red-600 to-red-500 text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+        <div className="mb-4 md:mb-8">
+          <div className="flex items-center gap-2 md:gap-3 mx-4 md:mx-8 mb-2 md:mb-4">
+            <span className="bg-gradient-to-r from-red-600 to-red-500 text-white px-3 md:px-4 py-1 rounded-full text-xs md:text-sm font-bold uppercase tracking-wider shadow-lg">
               🔥 Trending
             </span>
           </div>
@@ -34,9 +34,9 @@ const Browse = () => {
         </div>
 
         {/* Popular Section */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mx-8 mb-4">
-            <span className="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+        <div className="mb-4 md:mb-8">
+          <div className="flex items-center gap-2 md:gap-3 mx-4 md:mx-8 mb-2 md:mb-4">
+            <span className="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-3 md:px-4 py-1 rounded-full text-xs md:text-sm font-bold uppercase tracking-wider shadow-lg">
               ⭐ Popular
             </span>
           </div>
@@ -44,9 +44,9 @@ const Browse = () => {
         </div>
 
         {/* Top Rated Section */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mx-8 mb-4">
-            <span className="bg-gradient-to-r from-yellow-600 to-orange-500 text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+        <div className="mb-4 md:mb-8">
+          <div className="flex items-center gap-2 md:gap-3 mx-4 md:mx-8 mb-2 md:mb-4">
+            <span className="bg-gradient-to-r from-yellow-600 to-orange-500 text-white px-3 md:px-4 py-1 rounded-full text-xs md:text-sm font-bold uppercase tracking-wider shadow-lg">
               🏆 Top Rated
             </span>
           </div>

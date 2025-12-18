@@ -28,14 +28,14 @@ const Videos = () => {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
             {/* Section Header */}
             <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="w-1 h-8 bg-gradient-to-b from-red-600 to-red-500 rounded-full"></div>
-                    <h2 className="text-3xl font-bold text-white">Videos & Trailers</h2>
+                <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-1 h-6 md:h-8 bg-gradient-to-b from-red-600 to-red-500 rounded-full"></div>
+                    <h2 className="text-xl md:text-3xl font-bold text-white">Videos & Trailers</h2>
                     {movieVideos?.results && (
-                        <span className="text-gray-400 text-sm mt-1">
+                        <span className="text-gray-400 text-xs md:text-sm mt-1">
                             ({movieVideos.results.length} videos)
                         </span>
                     )}
@@ -44,19 +44,19 @@ const Videos = () => {
 
             {/* Videos Horizontal Scroll */}
             {(!movieVideos?.results || movieVideos.results.length === 0) ? (
-                <div className="flex items-center justify-center py-16 bg-gray-800/30 rounded-xl border border-gray-700/50">
-                    <div className="text-center">
-                        <i className='bx bx-video-off text-6xl text-gray-600 mb-4'></i>
-                        <p className="text-xl text-gray-400 font-medium">No Videos Available</p>
-                        <p className="text-sm text-gray-500 mt-2">There are no trailers or videos for this title yet.</p>
+                <div className="flex items-center justify-center py-8 md:py-16 bg-gray-800/30 rounded-xl border border-gray-700/50">
+                    <div className="text-center px-4">
+                        <i className='bx bx-video-off text-4xl md:text-6xl text-gray-600 mb-2 md:mb-4'></i>
+                        <p className="text-base md:text-xl text-gray-400 font-medium">No Videos Available</p>
+                        <p className="text-xs md:text-sm text-gray-500 mt-1 md:mt-2">There are no trailers or videos for this title yet.</p>
                     </div>
                 </div>
             ) : (
-            <div className="flex overflow-x-auto gap-6 pb-4 scroll-smooth snap-x snap-mandatory scrollbar-hide">
+            <div className="flex overflow-x-auto gap-3 md:gap-6 pb-4 scroll-smooth snap-x snap-mandatory scrollbar-hide">
                 {movieVideos.results.map((video, index) => {
                     return (
                         <div
-                            className="group flex-shrink-0 w-[520px] snap-start cursor-pointer"
+                            className="group flex-shrink-0 w-[280px] sm:w-[360px] md:w-[520px] snap-start cursor-pointer"
                             key={video.id}
                         >
                             <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-red-500/20">
@@ -131,20 +131,20 @@ const Videos = () => {
 
             {/* Full Screen Video Modal */}
             {selectedVideo && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedVideo(null)}>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm animate-fade-in p-4" onClick={() => setSelectedVideo(null)}>
                     {/* Close Button */}
                     <button
-                        className="absolute top-8 right-8 text-white hover:text-red-500 transition-colors duration-300 transform hover:scale-110 z-50"
+                        className="absolute top-4 right-4 md:top-8 md:right-8 text-white hover:text-red-500 transition-colors duration-300 transform hover:scale-110 z-50"
                         onClick={() => setSelectedVideo(null)}
                     >
-                        <i className='bx bx-x text-6xl'></i>
+                        <i className='bx bx-x text-4xl md:text-6xl'></i>
                     </button>
 
                     {/* Video Container */}
-                    <div className="w-11/12 max-w-6xl" onClick={(e) => e.stopPropagation()}>
-                        <div className="mb-4">
-                            <h2 className="text-white text-2xl font-bold mb-2">{selectedVideo.name}</h2>
-                            <div className="flex items-center gap-4 text-gray-400 text-sm">
+                    <div className="w-full max-w-6xl" onClick={(e) => e.stopPropagation()}>
+                        <div className="mb-2 md:mb-4">
+                            <h2 className="text-white text-lg md:text-2xl font-bold mb-1 md:mb-2 line-clamp-2">{selectedVideo.name}</h2>
+                            <div className="flex items-center gap-2 md:gap-4 text-gray-400 text-xs md:text-sm">
                                 <span className="flex items-center gap-1">
                                     <i className={`bx ${getVideoTypeIcon(selectedVideo.type)}`}></i>
                                     {selectedVideo.type}

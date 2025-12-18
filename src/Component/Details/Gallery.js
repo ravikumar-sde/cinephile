@@ -25,69 +25,69 @@ const Gallery = () => {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
             {/* Section Header with Tabs */}
-            <div className="flex items-center justify-between flex-wrap gap-4">
-                <div className="flex items-center gap-3">
-                    <div className="w-1 h-8 bg-gradient-to-b from-red-600 to-red-500 rounded-full"></div>
-                    <h2 className="text-3xl font-bold text-white">Photos & Gallery</h2>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 md:gap-4">
+                <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-1 h-6 md:h-8 bg-gradient-to-b from-red-600 to-red-500 rounded-full"></div>
+                    <h2 className="text-xl md:text-3xl font-bold text-white">Photos & Gallery</h2>
                 </div>
 
                 {/* Tabs */}
-                <div className="flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-lg p-1">
+                <div className="flex items-center gap-1 md:gap-2 bg-gray-800/50 backdrop-blur-sm rounded-lg p-1">
                     <button
                         onClick={() => { setActiveTab('backdrops'); setShowAll(false); }}
-                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                        className={`px-2 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-semibold transition-all duration-300 ${
                             activeTab === 'backdrops'
                                 ? 'bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg'
                                 : 'text-gray-400 hover:text-white'
                         }`}
                     >
-                        <i className='bx bx-image mr-2'></i>
-                        Backdrops ({backdrops.length})
+                        <i className='bx bx-image mr-1 md:mr-2'></i>
+                        <span className="hidden sm:inline">Backdrops</span> ({backdrops.length})
                     </button>
                     <button
                         onClick={() => { setActiveTab('posters'); setShowAll(false); }}
-                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                        className={`px-2 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-semibold transition-all duration-300 ${
                             activeTab === 'posters'
                                 ? 'bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg'
                                 : 'text-gray-400 hover:text-white'
                         }`}
                     >
-                        <i className='bx bx-photo-album mr-2'></i>
-                        Posters ({posters.length})
+                        <i className='bx bx-photo-album mr-1 md:mr-2'></i>
+                        <span className="hidden sm:inline">Posters</span> ({posters.length})
                     </button>
                 </div>
             </div>
 
             {/* Gallery Horizontal Scroll */}
             {displayedImages.length === 0 ? (
-                <div className="flex items-center justify-center py-16 bg-gray-800/30 rounded-xl border border-gray-700/50">
-                    <div className="text-center">
-                        <i className='bx bx-image text-6xl text-gray-600 mb-4'></i>
-                        <p className="text-xl text-gray-400 font-medium">No {activeTab === 'backdrops' ? 'Backdrops' : 'Posters'} Available</p>
-                        <p className="text-sm text-gray-500 mt-2">There are no images for this category yet.</p>
+                <div className="flex items-center justify-center py-8 md:py-16 bg-gray-800/30 rounded-xl border border-gray-700/50">
+                    <div className="text-center px-4">
+                        <i className='bx bx-image text-4xl md:text-6xl text-gray-600 mb-2 md:mb-4'></i>
+                        <p className="text-base md:text-xl text-gray-400 font-medium">No {activeTab === 'backdrops' ? 'Backdrops' : 'Posters'} Available</p>
+                        <p className="text-xs md:text-sm text-gray-500 mt-1 md:mt-2">There are no images for this category yet.</p>
                     </div>
                 </div>
             ) : (
-            <div className="flex overflow-x-auto gap-4 pb-4 scroll-smooth snap-x snap-mandatory scrollbar-hide">
+            <div className="flex overflow-x-auto gap-3 md:gap-4 pb-4 scroll-smooth snap-x snap-mandatory scrollbar-hide">
                 {displayedImages.map((image, index) => {
                     return (
                         <div
-                            className={`group flex-shrink-0 snap-start cursor-pointer ${activeTab === 'backdrops' ? 'w-96' : 'w-56'}`}
+                            className={`group flex-shrink-0 snap-start cursor-pointer ${activeTab === 'backdrops' ? 'w-64 md:w-96' : 'w-36 md:w-56'}`}
                             key={image.file_path}
                             onClick={() => handleImageClick(image, index)}
                         >
-                            <div className="relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-red-500/20 bg-gray-800">
+                            <div className="relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 md:hover:scale-105 md:hover:shadow-2xl md:hover:shadow-red-500/20 bg-gray-800">
                                 <img
-                                    className={`w-full ${activeTab === 'backdrops' ? 'aspect-video' : 'aspect-[2/3]'} object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-75`}
+                                    className={`w-full ${activeTab === 'backdrops' ? 'aspect-video' : 'aspect-[2/3]'} object-cover transition-all duration-500 md:group-hover:scale-110 md:group-hover:brightness-75`}
                                     alt={`Gallery image ${index + 1}`}
                                     src={'https://image.tmdb.org/t/p/w780/' + image.file_path}
                                     loading="lazy"
                                 />
 
-                                {/* Hover Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3">
+                                {/* Hover Overlay - Desktop only */}
+                                <div className="hidden md:flex absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-col items-center justify-center gap-3">
                                     {/* Resolution Badge */}
                                     <div className="bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full">
                                         <span className="text-white text-xs font-bold">
@@ -135,7 +135,7 @@ const Gallery = () => {
 
                                 {/* Language Badge */}
                                 {image.iso_639_1 && (
-                                    <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-white text-xs font-bold uppercase pointer-events-none">
+                                    <div className="absolute top-1 right-1 md:top-2 md:right-2 bg-black/60 backdrop-blur-sm px-1.5 md:px-2 py-0.5 md:py-1 rounded text-white text-[10px] md:text-xs font-bold uppercase pointer-events-none">
                                         {image.iso_639_1}
                                     </div>
                                 )}
@@ -149,62 +149,63 @@ const Gallery = () => {
             {/* Lightbox Modal */}
             {selectedImage && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm animate-fade-in"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm animate-fade-in p-2 md:p-4"
                     onClick={() => setSelectedImage(null)}
                 >
                     {/* Close Button */}
                     <button
-                        className="absolute top-8 right-8 text-white hover:text-red-500 transition-colors duration-300 transform hover:scale-110 z-50"
+                        className="absolute top-4 right-4 md:top-8 md:right-8 text-white hover:text-red-500 transition-colors duration-300 transform hover:scale-110 z-50"
                         onClick={() => setSelectedImage(null)}
                     >
-                        <i className='bx bx-x text-6xl'></i>
+                        <i className='bx bx-x text-4xl md:text-6xl'></i>
                     </button>
 
                     {/* Navigation Buttons */}
                     <button
-                        className="absolute left-8 text-white hover:text-red-500 transition-all duration-300 transform hover:scale-110 z-50 bg-black/50 backdrop-blur-sm p-4 rounded-full"
+                        className="absolute left-2 md:left-8 text-white hover:text-red-500 transition-all duration-300 transform hover:scale-110 z-50 bg-black/50 backdrop-blur-sm p-2 md:p-4 rounded-full"
                         onClick={(e) => { e.stopPropagation(); navigateImage('prev'); }}
                     >
-                        <i className='bx bx-chevron-left text-5xl'></i>
+                        <i className='bx bx-chevron-left text-3xl md:text-5xl'></i>
                     </button>
                     <button
-                        className="absolute right-8 text-white hover:text-red-500 transition-all duration-300 transform hover:scale-110 z-50 bg-black/50 backdrop-blur-sm p-4 rounded-full"
+                        className="absolute right-2 md:right-8 text-white hover:text-red-500 transition-all duration-300 transform hover:scale-110 z-50 bg-black/50 backdrop-blur-sm p-2 md:p-4 rounded-full"
                         onClick={(e) => { e.stopPropagation(); navigateImage('next'); }}
                     >
-                        <i className='bx bx-chevron-right text-5xl'></i>
+                        <i className='bx bx-chevron-right text-3xl md:text-5xl'></i>
                     </button>
 
                     {/* Image Container */}
-                    <div className="max-w-7xl max-h-[90vh] p-8" onClick={(e) => e.stopPropagation()}>
+                    <div className="max-w-7xl max-h-[90vh] p-2 md:p-8" onClick={(e) => e.stopPropagation()}>
                         <img
-                            className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
+                            className="max-w-full max-h-[70vh] md:max-h-[80vh] object-contain rounded-lg shadow-2xl"
                             alt="Full size gallery image"
                             src={'https://image.tmdb.org/t/p/original/' + selectedImage.file_path}
                         />
 
                         {/* Image Info */}
-                        <div className="mt-4 flex items-center justify-between text-white">
-                            <div className="flex items-center gap-4">
-                                <span className="text-sm">
+                        <div className="mt-2 md:mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-white">
+                            <div className="flex items-center gap-2 md:gap-4 flex-wrap">
+                                <span className="text-xs md:text-sm">
                                     {selectedImage.index + 1} / {activeTab === 'backdrops' ? backdrops.length : posters.length}
                                 </span>
-                                <span className="text-sm text-gray-400">
+                                <span className="text-xs md:text-sm text-gray-400">
                                     {selectedImage.width} × {selectedImage.height}
                                 </span>
                                 {selectedImage.vote_average > 0 && (
                                     <div className="flex items-center gap-1">
                                         <i className='bx bxs-star text-yellow-400'></i>
-                                        <span className="text-sm">{selectedImage.vote_average.toFixed(1)}</span>
+                                        <span className="text-xs md:text-sm">{selectedImage.vote_average.toFixed(1)}</span>
                                     </div>
                                 )}
                             </div>
                             <a
                                 href={`https://image.tmdb.org/t/p/original/${selectedImage.file_path}`}
                                 download
-                                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2"
+                                className="px-3 md:px-4 py-1.5 md:py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 rounded-lg text-sm md:text-base font-semibold transition-all duration-300 flex items-center gap-2"
                             >
                                 <i className='bx bx-download'></i>
-                                Download Original
+                                <span className="hidden sm:inline">Download Original</span>
+                                <span className="sm:hidden">Download</span>
                             </a>
                         </div>
                     </div>

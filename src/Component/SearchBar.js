@@ -60,17 +60,19 @@ const SearchBar = () => {
 
     return (
         <>
-            <div className="bg-black absolute top-0 left-0 p-60 w-dvw opacity-85 z-40"></div>
-            <div className="absolute top-56 left-1/2 -translate-x-1/2 flex gap-2 z-50">
-                <input ref={searchText} className="w-96 py-4 p-2 text-xl rounded border-4 border-red-700 bg-gray-900 text-white outline-none" placeholder={placeHolder} type="text" />
-                <select ref={option} className="rounded px-4 bg-white text-gray-500 font-medium font-lg outline-none" onClick={handleSelect}>
-                    <option className="text-lg" value='normal'>Normal</option>
-                    <option className="text-lg" value='gpt'>Advanced</option>
-                </select>
-                <button className="bg-red-500 px-8 text-xl text-white font-medium rounded" onClick={handleSearch}>Search</button>
+            <div className="bg-black fixed inset-0 opacity-85 z-40"></div>
+            <div className="fixed top-32 md:top-56 left-1/2 -translate-x-1/2 flex flex-col md:flex-row gap-2 md:gap-2 z-50 w-[90%] md:w-auto px-4 md:px-0">
+                <input ref={searchText} className="w-full md:w-96 py-3 md:py-4 px-3 md:px-4 text-base md:text-xl rounded border-2 md:border-4 border-red-700 bg-gray-900 text-white outline-none" placeholder={placeHolder} type="text" />
+                <div className="flex gap-2">
+                    <select ref={option} className="flex-1 md:flex-none rounded px-3 md:px-4 py-2 md:py-0 bg-white text-gray-500 font-medium text-sm md:text-lg outline-none" onClick={handleSelect}>
+                        <option className="text-sm md:text-lg" value='normal'>Normal</option>
+                        <option className="text-sm md:text-lg" value='gpt'>Advanced</option>
+                    </select>
+                    <button className="flex-1 md:flex-none bg-red-500 px-6 md:px-8 py-2 md:py-0 text-base md:text-xl text-white font-medium rounded" onClick={handleSearch}>Search</button>
+                </div>
             </div>
-            <div className="absolute text-gray-300 right-0 z-50" onClick={handleCloseButton}>
-                <i className='bx bx-x text-5xl mr-10'></i>
+            <div className="fixed text-gray-300 top-4 right-4 md:top-0 md:right-0 z-50 cursor-pointer" onClick={handleCloseButton}>
+                <i className='bx bx-x text-4xl md:text-5xl md:mr-10'></i>
             </div>
         </>
     )

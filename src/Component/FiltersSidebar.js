@@ -53,14 +53,14 @@ const FiltersSidebar = ({ onFilterChange, mediaType = 'movie' }) => {
   };
 
   return (
-    <div className="w-64 flex-shrink-0 space-y-4">
+    <div className="w-full lg:w-64 flex-shrink-0 space-y-4 mb-4 lg:mb-0">
       {/* Sort Section */}
       <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg border border-gray-700 overflow-hidden">
         <button
           onClick={() => setSortOpen(!sortOpen)}
           className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-700/50 transition-colors"
         >
-          <span className="font-semibold text-white">Sort</span>
+          <span className="font-semibold text-white text-sm md:text-base">Sort</span>
           <i className={`bx bx-chevron-${sortOpen ? 'up' : 'down'} text-xl text-gray-400`}></i>
         </button>
         {sortOpen && (
@@ -84,7 +84,7 @@ const FiltersSidebar = ({ onFilterChange, mediaType = 'movie' }) => {
           onClick={() => setFiltersOpen(!filtersOpen)}
           className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-700/50 transition-colors"
         >
-          <span className="font-semibold text-white">Filters</span>
+          <span className="font-semibold text-white text-sm md:text-base">Filters</span>
           <i className={`bx bx-chevron-${filtersOpen ? 'up' : 'down'} text-xl text-gray-400`}></i>
         </button>
         {filtersOpen && (
@@ -122,7 +122,7 @@ const FiltersSidebar = ({ onFilterChange, mediaType = 'movie' }) => {
                   <button
                     key={genre.id}
                     onClick={() => handleGenreToggle(genre.id)}
-                    className={`px-3 py-1 text-xs rounded-full border transition-colors ${
+                    className={`px-2 md:px-3 py-1 text-xs rounded-full border transition-colors ${
                       selectedGenres.includes(genre.id)
                         ? 'bg-red-600 text-white border-red-600'
                         : 'bg-gray-900 text-gray-300 border-gray-600 hover:border-red-500'
